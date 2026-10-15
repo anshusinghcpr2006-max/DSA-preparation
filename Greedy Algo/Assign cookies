@@ -1,0 +1,24 @@
+//Brute force
+
+class Solution {
+public:
+    int findContentChildren(vector<int>& g, vector<int>& s) {
+        sort(g.begin(), g.end());
+        sort(s.begin(), s.end());
+
+        vector<bool> used(s.size(), false);
+        int satisfiedChildren = 0;
+
+        for (int childIndex = 0; childIndex < g.size(); childIndex++) {
+            for (int cookieIndex = 0; cookieIndex < s.size(); cookieIndex++) {
+                if (!used[cookieIndex] && s[cookieIndex] >= g[childIndex]) {
+                    used[cookieIndex] = true;
+                    satisfiedChildren++;
+                    break;
+                }
+            }
+        }
+
+        return satisfiedChildren;
+    }
+};
