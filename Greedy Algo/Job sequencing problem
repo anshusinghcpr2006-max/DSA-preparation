@@ -1,0 +1,59 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> JobSequencing(vector<int>& id,
+                              vector<int>& deadline,
+                              vector<int>& profit) {
+        int n = id.size();
+
+        // Step 1: Store each job as {id, deadline, profit}
+        vector<array<int, 3>> jobs;
+
+        for (int i = 0; i < n; i++) {
+            jobs.push_back({id[i], deadline[i], profit[i]});
+        }
+
+        // Step 2: Sort jobs by profit in descending order
+        sort(jobs.begin(), jobs.end(),
+             [](const array<int, 3>& a,
+                const array<int, 3>& b) {
+                 return a[2] > b[2];
+             });
+
+        // Step 3: Find the maximum deadline
+        int maxDeadline = 0;
+
+        for (int i = 0; i < n; i++) {
+            maxDeadline = max(maxDeadline, deadline[i]);
+        }
+
+        // Step 4: Initially, all time slots are empty
+        vector<int> slot(maxDeadline + 1, -1);
+
+        int count = 0;
+        int totalProfit = 0;
+
+        // Step 5: Try to schedule each job
+        for (int i = 0; i < n; i++) {
+            int jobId = jobs[i][0];
+            int jobDeadline = jobs[i][1];
+            int jobProfit = jobs[i][2];
+
+            // Start from the latest possible slot
+            for (int j = min(jobDeadline, maxDeadline); j >= 1; j--) {
+                if (slot[j] == -1) {
+                    slot[j] = jobId;
+                    count++;
+                    totalProfit += jobProfit;
+                    break;
+                }
+            }
+        }
+
+        // Return number of jobs and maximum profit
+        return {count, totalProfit};
+    }
+};
