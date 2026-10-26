@@ -1,0 +1,78 @@
+// Brute force
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+private:
+    bool hasUniqueCharacters(string s, int start, int end) {
+        unordered_set<char> seen;
+
+        for (int i = start; i <= end; i++) {
+            if (seen.count(s[i])) {
+                return false;
+            }
+
+            seen.insert(s[i]);
+        }
+
+        return true;
+    }
+
+public:
+    int lengthOfLongestSubstring(string s) {
+        int n = s.size();
+        int maxLen = 0;
+
+        for (int start = 0; start < n; start++) {
+            for (int end = start; end < n; end++) {
+
+                if (!hasUniqueCharacters(s, start, end)) {
+                    break;
+                }
+
+                maxLen = max(maxLen, end - start + 1);
+            }
+        }
+
+        return maxLen;
+    }
+};
+
+// optimal
+
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_set<char> seen;
+
+        int left = 0;
+        int maxLen = 0;
+
+        for (int right = 0; right < s.size(); right++) {
+
+            while (seen.count(s[right])) {
+                seen.erase(s[left]);
+                left++;
+            }
+
+            seen.insert(s[right]);
+
+            maxLen = max(maxLen, right - left + 1);
+        }
+
+        return maxLen;
+    }
+};
+
+
+
+
+
+
+
+
+o
