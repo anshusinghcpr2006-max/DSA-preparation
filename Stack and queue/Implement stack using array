@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class ArrayStack {
+private:
+    vector<int> values;
+    int capacity;
+    int top;
+
+public:
+    ArrayStack(int cap) {
+        values.resize(cap);
+        capacity = cap;
+        top = -1;
+    }
+
+    void push(int value, vector<string>& output) {
+        if (top == capacity - 1) {
+            output.push_back("Stack Overflow");
+            return;
+        }
+
+        top++;
+        values[top] = value;
+
+        output.push_back("Pushed " + to_string(value));
+    }
+
+    void pop(vector<string>& output) {
+        if (top == -1) {
+            output.push_back("Stack Underflow");
+            return;
+        }
+
+        int removedValue = values[top];
+        top--;
+
+        output.push_back("Popped " + to_string(removedValue));
+    }
+
+    void peek(vector<string>& output) {
+        if (top == -1) {
+            output.push_back("Stack is Empty");
+            return;
+        }
+
+        output.push_back("Top = " + to_string(values[top]));
+    }
+
+    bool isEmpty() {
+        return top == -1;
+    }
+
+    int size() {
+        return top + 1;
+    }
+};
+
+class Solution {
+public:
+    vector<string> runStackOperations() {
+        vector<string> output;
+        ArrayStack stack(4);
+
+        stack.push(10, output);
+        stack.push(20, output);
+        stack.push(30, output);
+
+        stack.peek(output);
+
+        output.push_back("Size = " + to_string(stack.size()));
+
+        stack.pop(output);
+
+        stack.peek(output);
+
+        output.push_back("Size = " + to_string(stack.size()));
+
+        output.push_back(string("Is Empty = ") +
+                         (stack.isEmpty() ? "true" : "false"));
+
+        return output;
+    }
+};
+
+int main() {
+    Solution obj;
+
+    vector<string> result = obj.runStackOperations();
+
+    for (string line : result) {
+        cout << line << "\n";
+    }
+
+    return 0;
+}
