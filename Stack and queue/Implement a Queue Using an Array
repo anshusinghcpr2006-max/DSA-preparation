@@ -1,0 +1,54 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+private:
+    vector<int> arr;
+    int capacity;
+    int size;
+
+public:
+    Solution(int maxSize) {
+        capacity = maxSize;
+        size = 0;
+        arr.resize(capacity);
+    }
+
+    void push(int x) {
+        if (size == capacity) {
+            return;
+        }
+
+        arr[size] = x;
+        size++;
+    }
+
+    int pop() {
+        if (size == 0) {
+            return -1;
+        }
+
+        int frontValue = arr[0];
+
+        for (int index = 1; index < size; index++) {
+            arr[index - 1] = arr[index];
+        }
+
+        size--;
+
+        return frontValue;
+    }
+
+    int peek() {
+        if (size == 0) {
+            return -1;
+        }
+
+        return arr[0];
+    }
+
+    bool empty() {
+        return size == 0;
+    }
+};
